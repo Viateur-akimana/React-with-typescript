@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import ReminderList from './components/ReminderList';
-import ReminderService from './services/ReminderService';
+import ReminderService from './services/reminder';
+import Reminder from "./model/Reminder";
 
 function App() {
-  const [reminders, setReminders] = useState([]);
-
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+  
   useEffect(() => {
-    LoadReminders();
+    loadReminders();
   }, []);
 
-  const LoadReminders = async () => {
+  const loadReminders = async () => {
     try {
-      const reminder = await ReminderService.getReminder();
-      setReminders(reminder);
+      const remindersData = await ReminderService.getReminders();
+      setReminders(remindersData);
     } catch (error) {
       console.error('Error loading reminders:', error);
     }
-  };
+  }
 
   return (
     <div className="App">
